@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reminder: Action Required - {{companyName}}</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #FFA726; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .button { background: #FFA726; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 20px 0; }
+        .urgent { background: #ff9800; color: white; padding: 10px; border-radius: 4px; margin: 15px 0; }
+        .footer { font-size: 12px; color: #666; text-align: center; padding: 20px; border-top: 1px solid #ddd; }
+        .compliance { font-size: 11px; color: #888; margin-top: 20px; }
+        .pending-items { background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 4px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⏰ Reminder: Action Required</h1>
+        </div>
+        
+        <div class="content">
+            <h2>Hello {{clientName}},</h2>
+            
+            <div class="urgent">
+                <strong>This is a reminder that you have pending items in your onboarding process.</strong>
+            </div>
+            
+            <p><strong>Client ID:</strong> {{clientId}}</p>
+            <p><strong>Days since last activity:</strong> {{daysSinceLastActivity}}</p>
+            
+            <div class="pending-items">
+                <h3>📋 Pending Items:</h3>
+                {{#if pendingDocuments}}
+                    <ul>
+                        {{#each pendingDocuments}}
+                            <li>{{this.name}} - Due: {{this.dueDate}}</li>
+                        {{/each}}
+                    </ul>
+                {{else}}
+                    <p>{{reminderMessage}}</p>
+                {{/if}}
+            </div>
+            
+            <p>To complete your onboarding process, please:</p>
+            <ol>
+                <li>Review the pending items listed above</li>
+                <li>Upload any required documents</li>
+                <li>Complete any outstanding forms</li>
+                <li>Contact us if you need assistance</li>
+            </ol>
+            
+            <p><strong>Need help?</strong> Our support team is ready to assist you at {{supportEmail}} or {{supportPhone}}.</p>
+            
+            <a href="{{portalUrl}}" class="button">Access Your Portal</a>
+            
+            <p>Thank you for your attention to this matter.</p>
+            
+            <p>Best regards,<br>The {{companyName}} Team</p>
+        </div>
+        
+        <div class="footer">
+            <div class="compliance">
+                <p>This reminder was sent to {{clientEmail}} regarding your onboarding process.</p>
+                <p>If you no longer wish to receive these emails, you can <a href="{{unsubscribeUrl}}">unsubscribe here</a>.</p>
+                <p>{{companyName}} • {{companyAddress}} • Privacy Policy: {{privacyPolicyUrl}}</p>
+                <p>© {{currentYear}} {{companyName}}. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to {{companyName}}</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #4CAF50; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background: #f9f9f9; }
+        .button { background: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 20px 0; }
+        .footer { font-size: 12px; color: #666; text-align: center; padding: 20px; border-top: 1px solid #ddd; }
+        .compliance { font-size: 11px; color: #888; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to {{companyName}}</h1>
+        </div>
+        
+        <div class="content">
+            <h2>Hello {{clientName}},</h2>
+            
+            <p>Welcome to {{companyName}}! We're excited to begin working with you on your onboarding journey.</p>
+            
+            <p><strong>Your client ID:</strong> {{clientId}}</p>
+            
+            <p>Here's what happens next:</p>
+            <ul>
+                <li>You'll receive document requests via email</li>
+                <li>Upload required documents through our secure portal</li>
+                <li>Our team will review and process your information</li>
+                <li>You'll be notified upon completion of each step</li>
+            </ul>
+            
+            <p>If you have any questions, please don't hesitate to contact our support team.</p>
+            
+            <a href="{{portalUrl}}" class="button">Access Your Portal</a>
+            
+            <p>Best regards,<br>The {{companyName}} Team</p>
+        </div>
+        
+        <div class="footer">
+            <div class="compliance">
+                <p>This email was sent to {{clientEmail}} because you signed up for our onboarding service.</p>
+                <p>If you no longer wish to receive these emails, you can <a href="{{unsubscribeUrl}}">unsubscribe here</a>.</p>
+                <p>{{companyName}} • {{companyAddress}} • Privacy Policy: {{privacyPolicyUrl}}</p>
+                <p>© {{currentYear}} {{companyName}}. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
