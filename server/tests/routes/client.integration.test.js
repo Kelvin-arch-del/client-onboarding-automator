@@ -1,4 +1,4 @@
-const app = require('../src/app');
+const app = require('../../src/app');
 const request = require('supertest');
 const clientFixture = require('../fixtures/client.fixture');
 
