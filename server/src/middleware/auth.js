@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const { auditLog } = require('../../shared/audit');
+const { auditLog } = require('../shared/audit');
 
 // Middleware function to authenticate JWT
 module.exports = async function auth(req, res, next) {
