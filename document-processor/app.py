@@ -4,6 +4,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from PIL import Image
 import pytesseract
+from pdf2image import convert_from_path
 
 # Load env
 from dotenv import load_dotenv
@@ -32,9 +33,16 @@ def upload_document():
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     file.save(filepath)
 
-    # OCR processing
     try:
-        text = pytesseract.image_to_string(Image.open(filepath))
+        if filename.lower().endswith('.pdf'):
+            # Convert PDF pages to images
+            images = convert_from_path(filepath)
+            text = ''
+            for img in images:
+                text += pytesseract.image_to_string(img) + '\n'
+        else:
+            # Directly OCR images
+            text = pytesseract.image_to_string(Image.open(filepath))
     except Exception as e:
         return jsonify({'error': f'OCR failed: {str(e)}'}), 500
 
