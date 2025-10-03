@@ -18,3 +18,12 @@ services:
       - '5000:5000'
     depends_on:
       - rabbitmq
+
+  workflow-engine:
+    build:
+      context: ./workflow-engine
+      dockerfile: Dockerfile
+    env_file:
+      - ./workflow-engine/.env
+    depends_on:
+      - rabbitmq
