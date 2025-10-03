@@ -35,8 +35,7 @@ const clientSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ['pending', 'active', 'completed', 'inactive'],
-    default: 'pending'
+    enum: ['pending', 'active', 'completed', 'inactive']
   },
   onboardingProgress: {
     type: Number,
