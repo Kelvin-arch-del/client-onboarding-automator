@@ -27,3 +27,12 @@ services:
       - ./workflow-engine/.env
     depends_on:
       - rabbitmq
+
+  document-processor:
+    build:
+      context: ./document-processor
+      dockerfile: Dockerfile
+    env_file:
+      - ./document-processor/.env
+    ports:
+      - '4000:4000'
