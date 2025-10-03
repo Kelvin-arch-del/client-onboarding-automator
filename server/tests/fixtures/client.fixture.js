@@ -1,11 +1,12 @@
+// server/tests/fixtures/client.fixture.js
 module.exports = {
   validClient: {
     name: 'Test Client',
     email: 'testclient@example.com',
-    phone: '+1-555-123-4567',
+    phone: '+15551234567',          // digits only per regex
     company: 'Test Company Inc.',
-    caseType: 'personal-injury',
-    status: 'active',
+    caseType: 'general',            // valid enum value
+    status: 'active',               // valid enum value
     contactInfo: {
       firstName: 'Test',
       lastName: 'Client',
@@ -33,8 +34,8 @@ module.exports = {
   incompleteClient: {
     name: '',
     email: '',
-    phone: '',           // added
-    company: '',         // added
+    phone: '',
+    company: '',
     caseType: '',
     status: '',
     contactInfo: {},
