@@ -36,3 +36,12 @@ services:
       - ./document-processor/.env
     ports:
       - '4000:4000'
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    env_file:
+      - ./notification-service/.env
+    depends_on:
+      - rabbitmq
