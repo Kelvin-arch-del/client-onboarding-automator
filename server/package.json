@@ -1,1 +1,24 @@
-
+{
+  "name": "client-onboarding-automator-server",
+  "version": "1.0.0",
+  "description": "Server for legal client onboarding platform",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "NODE_ENV=test jest"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.2.10",
+    "mongoose-encryption": "^2.1.2",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^6.3.0"
+  }
+}

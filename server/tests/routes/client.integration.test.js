@@ -1,5 +1,5 @@
+const app = require('../src/app');
 const request = require('supertest');
-const app = require('../../src/index');
 const clientFixture = require('../fixtures/client.fixture');
 
 describe('Client API Integration', () => {

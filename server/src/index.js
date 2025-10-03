@@ -1,19 +1,19 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const app = express();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(morgan('dev'));
-
-
-// Auth routes
-app.use('/api/auth', require('./routes/auth'));
+const { connectDB } = require('./config/database');
+const app = require('./app');
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+// Only start server if not in test mode
+if (process.env.NODE_ENV !== 'test') {
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  }).catch(err => {
+    console.error('Failed to connect to DB:', err);
+    process.exit(1);
+  });
+}
+
+// Export app for testing
+module.exports = app;

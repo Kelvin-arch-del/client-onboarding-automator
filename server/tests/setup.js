@@ -1,14 +1,25 @@
-// Jest global setup for test DB, teardown, and environment
+process.env.NODE_ENV = 'test';
+require('dotenv').config();
+
+const { connectDB, disconnectDB } = require('./src/config/database');
 const mongoose = require('mongoose');
 
 beforeAll(async () => {
-  const dbUri = process.env.TEST_MONGO_URI || 'mongodb://localhost:27017/client_onboarding_test';
-  await mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
+  await connectDB();
 });
 
 afterAll(async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
+  // Clean up test data
+  if (mongoose.connection.db) {
+    await mongoose.connection.db.dropDatabase();
+  }
+  await disconnectDB();
 });
 
-// Optionally add global test helpers here
+// Clean between tests
+afterEach(async () => {
+  const collections = mongoose.connection.collections;
+  for (const key in collections) {
+    await collections[key].deleteMany({});
+  }
+});
