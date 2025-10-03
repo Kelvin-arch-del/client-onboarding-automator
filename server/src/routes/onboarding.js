@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth'); // Assuming you have auth middleware
+const auth = require('../middleware/auth'); // Ensure this points to the auth function
 
 // Get client onboarding status
-router.get('/status/:clientId', auth, async (req, res) => {
+router.get('/status/:clientId', auth, (req, res) => {
   res.status(501).json({
     success: false,
     message: 'Get onboarding status - Not implemented',
@@ -12,7 +12,7 @@ router.get('/status/:clientId', auth, async (req, res) => {
 });
 
 // Start onboarding process
-router.post('/start/:clientId', auth, async (req, res) => {
+router.post('/start/:clientId', auth, (req, res) => {
   res.status(501).json({
     success: false,
     message: 'Start onboarding process - Not implemented',
@@ -21,7 +21,7 @@ router.post('/start/:clientId', auth, async (req, res) => {
 });
 
 // Update onboarding step
-router.put('/step/:clientId/:stepId', auth, async (req, res) => {
+router.put('/step/:clientId/:stepId', auth, (req, res) => {
   res.status(501).json({
     success: false,
     message: 'Update onboarding step - Not implemented',
@@ -31,7 +31,7 @@ router.put('/step/:clientId/:stepId', auth, async (req, res) => {
 });
 
 // Complete onboarding
-router.post('/complete/:clientId', auth, async (req, res) => {
+router.post('/complete/:clientId', auth, (req, res) => {
   res.status(501).json({
     success: false,
     message: 'Complete onboarding - Not implemented',
@@ -40,7 +40,7 @@ router.post('/complete/:clientId', auth, async (req, res) => {
 });
 
 // Get onboarding tasks
-router.get('/tasks/:clientId', auth, async (req, res) => {
+router.get('/tasks/:clientId', auth, (req, res) => {
   res.status(501).json({
     success: false,
     message: 'Get onboarding tasks - Not implemented',

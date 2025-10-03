@@ -1,4 +1,4 @@
-const app = require('../../src/app');
+const app = require('../src/app'); // was '../../src/app'
 const request = require('supertest');
 
 describe('Authentication', () => {
@@ -8,5 +8,5 @@ describe('Authentication', () => {
       .send({ email: '' });
     expect(res.statusCode).toBe(400);
   });
-  // Add more tests (successful login, JWT validation, etc.)
 });
+
