@@ -23,5 +23,8 @@ app.use('/api/auth', authLimiter, require('./routes/auth'));
 
 app.use('/api/onboarding', require('./routes/onboarding'));
 
+// Client routes
+app.use('/api/clients', require('./routes/clients'));
+
 // Export ONLY the app (no server start)
 module.exports = app;

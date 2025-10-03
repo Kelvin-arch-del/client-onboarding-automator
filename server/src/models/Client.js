@@ -16,7 +16,10 @@ const clientSchema = new mongoose.Schema({
         required: true
     },
     phone: {
-        type: String
+        type: String,
+        required: true,
+        trim: true,
+        match: [/^[\+]?[1-9]?[0-9]{7,15}$/, 'Invalid phone number']
     },
     address: {
         type: String

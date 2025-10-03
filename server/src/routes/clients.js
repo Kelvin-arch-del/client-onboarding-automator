@@ -1,11 +1,12 @@
+// server/src/routes/clients.js
 const express = require('express');
 const router = express.Router();
-const clientController = require('../controllers/clientController');
+const auth = require('../middleware/auth');
 
-router.get('/', clientController.getAllClients);
-router.get('/:id', clientController.getClientById);
-router.post('/', clientController.createClient);
-router.put('/:id', clientController.updateClient);
-router.delete('/:id', clientController.deleteClient);
+// Create client (stub)
+router.post('/', auth, async (req, res) => {
+  // In real impl, you'd create the client here
+  res.status(201).json({ success: true, data: req.body });
+});
 
 module.exports = router;
