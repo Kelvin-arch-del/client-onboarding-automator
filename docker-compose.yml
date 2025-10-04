@@ -45,3 +45,11 @@ services:
       - ./notification-service/.env
     depends_on:
       - rabbitmq
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
