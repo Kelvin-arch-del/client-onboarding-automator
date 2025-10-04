@@ -1,18 +1,35 @@
 require('dotenv').config();
 const amqp = require('amqplib');
-const sgMail = require('@sendgrid/mail');
-const twilio = require('twilio');
 
-// Initialize SendGrid
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// Only initialize external services if valid credentials exist
+let sgMail, twilioClient;
 
-// Initialize Twilio
-const twilioClient = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
+const SENDGRID_KEY = process.env.SENDGRID_API_KEY;
+const TWILIO_SID = process.env.TWILIO_ACCOUNT_SID;
+const TWILIO_TOKEN = process.env.TWILIO_AUTH_TOKEN;
+
+if (SENDGRID_KEY && SENDGRID_KEY.startsWith('SG.')) {
+  sgMail = require('@sendgrid/mail');
+  sgMail.setApiKey(SENDGRID_KEY);
+  console.log('[Notification] SendGrid initialized');
+} else {
+  console.log('[Notification] SendGrid disabled - invalid API key');
+}
+
+if (TWILIO_SID && TWILIO_SID.startsWith('AC') && TWILIO_TOKEN) {
+  const twilio = require('twilio');
+  twilioClient = twilio(TWILIO_SID, TWILIO_TOKEN);
+  console.log('[Notification] Twilio initialized');
+} else {
+  console.log('[Notification] Twilio disabled - invalid credentials');
+}
 
 async function sendEmail(to, subject, text) {
+  if (!sgMail) {
+    console.log(`[Notification] Email stub: ${subject} to ${to}`);
+    return;
+  }
+  
   try {
     const msg = {
       to,
@@ -21,22 +38,27 @@ async function sendEmail(to, subject, text) {
       text
     };
     await sgMail.send(msg);
-    console.log(`Email sent to ${to}: ${subject}`);
+    console.log(`[Notification] Email sent to ${to}: ${subject}`);
   } catch (error) {
-    console.error('Email send failed:', error);
+    console.error('[Notification] Email send failed:', error.message);
   }
 }
 
 async function sendSMS(to, message) {
+  if (!twilioClient) {
+    console.log(`[Notification] SMS stub: ${message} to ${to}`);
+    return;
+  }
+  
   try {
     await twilioClient.messages.create({
       body: message,
       from: process.env.TWILIO_PHONE,
       to
     });
-    console.log(`SMS sent to ${to}: ${message}`);
+    console.log(`[Notification] SMS sent to ${to}`);
   } catch (error) {
-    console.error('SMS send failed:', error);
+    console.error('[Notification] SMS send failed:', error.message);
   }
 }
 
@@ -44,7 +66,6 @@ async function startNotificationService() {
   const conn = await amqp.connect(process.env.RABBITMQ_URL);
   const ch = await conn.createChannel();
 
-  // Listen for onboarding events
   const queues = [
     'OnboardingStarted',
     'OnboardingStepCompleted', 
@@ -58,11 +79,10 @@ async function startNotificationService() {
         const event = JSON.parse(msg.content.toString());
         console.log(`[Notification] Received ${queue}:`, event);
 
-        // Handle different event types
         switch (queue) {
           case 'OnboardingStarted':
             await sendEmail(
-              'client@example.com', // TODO: get from client data
+              'client@example.com',
               'Welcome - Onboarding Started',
               `Your onboarding process has begun. Client ID: ${event.clientId}`
             );
