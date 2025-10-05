@@ -4,52 +4,38 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
 
   server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    env_file:
-      - ./server/.env
+    build: ./server
+    env_file: ./server/.env
     ports:
       - '5000:5000'
     depends_on:
       - rabbitmq
 
   workflow-engine:
-    build:
-      context: ./workflow-engine
-      dockerfile: Dockerfile
-    env_file:
-      - ./workflow-engine/.env
+    build: ./workflow-engine
+    env_file: ./workflow-engine/.env
     depends_on:
       - rabbitmq
 
   document-processor:
-    build:
-      context: ./document-processor
-      dockerfile: Dockerfile
-    env_file:
-      - ./document-processor/.env
+    build: ./document-processor
+    env_file: ./document-processor/.env
     ports:
       - '4000:4000'
 
   notification-service:
-    build:
-      context: ./notification-service
-      dockerfile: Dockerfile
-    env_file:
-      - ./notification-service/.env
+    build: ./notification-service
+    env_file: ./notification-service/.env
     depends_on:
       - rabbitmq
 
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - server
