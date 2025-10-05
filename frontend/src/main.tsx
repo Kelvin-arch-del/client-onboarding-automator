@@ -6,11 +6,9 @@ import App from './App'
 import { AuthProvider } from './AuthContext'
 import './index.css'
 
-// Configure Axios
 axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-// Set auth header if token exists
 const token = localStorage.getItem('token')
 if (token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`

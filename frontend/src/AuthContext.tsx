@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useContext } from 'react'
 import axios from 'axios'
 
 interface AuthContextType {
@@ -8,9 +8,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   token: null,
-  login: async () => {
-    throw new Error('login function must be implemented by AuthProvider')
-  }
+  login: async () => { throw new Error('login not implemented') }
 })
 
 export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
@@ -30,4 +28,5 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
   )
 }
 
+export const useAuth = () => useContext(AuthContext)
 export default AuthContext
