@@ -4,15 +4,20 @@
   "private": true,
   "workspaces": ["server", "client"],
   "scripts": {
+    "prepare": "husky install",
     "lint": "npm run lint:client",
     "lint:client": "npm --workspace client run lint",
-    "format": "npm --workspace client run format",
-    "prepare": "echo 'Husky disabled temporarily'"
+    "format": "npm --workspace client run format"
   },
   "lint-staged": {
     "client/**/*.{ts,tsx,js,jsx}": [
-      "echo 'Linting disabled during debug'"
-    ]
+      "npm --workspace client run lint:fix",
+      "npm --workspace client run format:check"
+    ],
+    "server/**/*.ts": [
+      "npm --workspace server run lint:fix",
+      "npm --workspace server run format:check"
+      ]
   },
   "devDependencies": {
     "husky": "^8.0.3",
