@@ -12,7 +12,8 @@
   "lint-staged": {
     "client/**/*.{ts,tsx,js,jsx}": [
       "npm --workspace client run lint:fix",
-      "npm --workspace client run format:check"
+      "npm --workspace client run format:check",
+      "npm --workspace client run lint"
     ],
     "server/**/*.ts": [
       "npm --workspace server run lint:fix",
