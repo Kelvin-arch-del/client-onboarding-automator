@@ -4,9 +4,7 @@ import { ApiResponse, OnboardingProgress } from './types';
 export const onboardingApi = {
   async getProgress(): Promise<OnboardingProgress> {
     try {
-      const response = await apiClient.get<ApiResponse<OnboardingProgress>>(
-        '/onboarding/progress'
-      );
+      const response = await apiClient.get<ApiResponse<OnboardingProgress>>('/onboarding/progress');
       return response.data.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || 'Failed to fetch onboarding progress');
@@ -27,9 +25,7 @@ export const onboardingApi = {
 
   async submitForReview(): Promise<OnboardingProgress> {
     try {
-      const response = await apiClient.post<ApiResponse<OnboardingProgress>>(
-        '/onboarding/submit'
-      );
+      const response = await apiClient.post<ApiResponse<OnboardingProgress>>('/onboarding/submit');
       return response.data.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || 'Failed to submit for review');

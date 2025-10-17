@@ -1,0 +1,6 @@
+# client/.prettierignore
+node_modules
+dist
+coverage
+.vscode
+*.config.js

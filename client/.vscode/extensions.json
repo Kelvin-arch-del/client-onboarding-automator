@@ -1,0 +1,9 @@
+// client/.vscode/extensions.json
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ZixuanChen.vitest-explorer",
+    "bradlc.vscode-tailwindcss"
+  ]
+}

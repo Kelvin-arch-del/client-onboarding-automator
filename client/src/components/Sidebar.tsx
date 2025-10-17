@@ -18,15 +18,14 @@ const Sidebar: React.FC = () => (
           to={item.to}
           className={({
             isActive,
-            }: {
+          }: {
             isActive: boolean;
             isPending: boolean; // optional, if you want pending state
-            }) =>
+          }) =>
             `block px-4 py-2 rounded hover:bg-gray-200 ${
-                isActive ? 'bg-gray-200 font-semibold' : ''
+              isActive ? 'bg-gray-200 font-semibold' : ''
             }`
-            }
-          
+          }
         >
           {item.name}
         </NavLink>

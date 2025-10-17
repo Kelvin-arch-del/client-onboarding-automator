@@ -1,13 +1,8 @@
-export interface ApiResponse<T = any> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
-
-export interface ApiError {
-  message: string;
-  code?: string;
-  statusCode?: number;
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
 }
 
 export interface LoginRequest {
@@ -17,45 +12,55 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  user: {
-    id: string;
-    email: string;
-    roles: string[];
-  };
+  user: User;
 }
 
-export interface UserProfile {
-  id: string;
+export interface RegisterRequest {
   email: string;
-  firstName?: string;
-  lastName?: string;
-  roles: string[];
-  createdAt: string;
-  updatedAt: string;
+  password: string;
+  name: string;
+}
+
+export interface RegisterResponse {
+  token: string;
+  user: User;
 }
 
 export interface DocumentUploadResponse {
   id: string;
   filename: string;
   originalName: string;
-  mimeType: string;
-  size: number;
+  status: 'pending' | 'approved' | 'rejected';
   uploadedAt: string;
-  status: 'processing' | 'completed' | 'failed';
 }
 
 export interface OnboardingProgress {
   id: string;
   userId: string;
-  currentStep: string;
+  status: 'pending' | 'in_progress' | 'completed';
   completedSteps: string[];
   totalSteps: number;
-  status: 'pending' | 'in-progress' | 'completed' | 'rejected';
-  documents: {
-    id: string;
-    type: string;
-    status: 'pending' | 'uploaded' | 'verified' | 'rejected';
-    filename?: string;
-  }[];
-  lastUpdated: string;
+  currentStep: string;
+  requiredDocuments: DocumentRequirement[];
+  uploadedDocuments: DocumentUploadResponse[];
+}
+
+export interface DocumentRequirement {
+  id: string;
+  type: string;
+  required: boolean;
+  status: 'pending' | 'uploaded' | 'approved' | 'rejected';
+  filename?: string;
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  message: string;
+  success: boolean;
+}
+
+export interface ErrorResponse {
+  message: string;
+  error: string;
+  statusCode: number;
 }

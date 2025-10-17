@@ -1,47 +1,58 @@
-import { apiClient } from './config';
-import { ApiResponse, LoginRequest, LoginResponse, UserProfile } from './types';
+import apiClient from './config';
+import { jwtDecode } from 'jwt-decode';
+import { LoginResponse, RegisterResponse, User, JwtPayload, Role } from '../auth/types';
 
-export const authApi = {
-  async login(credentials: LoginRequest): Promise<LoginResponse> {
-    try {
-      const response = await apiClient.post<ApiResponse<LoginResponse>>(
-        '/auth/login',
-        credentials
-      );
-      return response.data.data;
-    } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Login failed');
-    }
-  },
+export const loginUser = async (email: string, password: string): Promise<LoginResponse> => {
+  const response = await apiClient.post<LoginResponse>('/auth/login', { email, password });
+  return response.data;
+};
 
-  async getProfile(): Promise<UserProfile> {
-    try {
-      const response = await apiClient.get<ApiResponse<UserProfile>>('/auth/me');
-      return response.data.data;
-    } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Failed to fetch profile');
-    }
-  },
+export const registerUser = async (
+  email: string,
+  password: string,
+  name: string,
+  role: Role = 'Client'
+): Promise<RegisterResponse> => {
+  const response = await apiClient.post<RegisterResponse>('/auth/register', {
+    email,
+    password,
+    name,
+    role,
+  });
+  return response.data;
+};
 
-  async refreshToken(): Promise<{ token: string }> {
-    try {
-      const response = await apiClient.post<ApiResponse<{ token: string }>>(
-        '/auth/refresh'
-      );
-      return response.data.data;
-    } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Token refresh failed');
-    }
-  },
+export const getUserProfile = async (): Promise<User> => {
+  const response = await apiClient.get<{ data: User }>('/auth/me');
+  return response.data.data;
+};
 
-  async logout(): Promise<void> {
-    try {
-      await apiClient.post('/auth/logout');
-    } catch (error: any) {
-      // Continue with logout even if API call fails
-      console.warn('Logout API call failed:', error.message);
-    } finally {
-      localStorage.removeItem('auth_token');
-    }
-  },
+export const refreshToken = async (refreshToken: string): Promise<{ token: string }> => {
+  const response = await apiClient.post<{ token: string }>('/auth/refresh', {
+    refreshToken,
+  });
+  return response.data;
+};
+
+export const logoutUser = async (): Promise<void> => {
+  await apiClient.post('/auth/logout');
+};
+
+export const decodeToken = (token: string): JwtPayload | null => {
+  try {
+    return jwtDecode<JwtPayload>(token);
+  } catch (error) {
+    console.error('Invalid token:', error);
+    return null;
+  }
+};
+
+export const isTokenExpired = (token: string): boolean => {
+  try {
+    const decoded = jwtDecode<JwtPayload>(token);
+    const currentTime = Date.now() / 1000;
+    return decoded.exp < currentTime;
+  } catch {
+    return true;
+  }
 };

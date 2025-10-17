@@ -11,7 +11,7 @@ export const useDocuments = () => {
 
 export const useUploadDocument = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: ({ file, documentType }: { file: File; documentType?: string }) =>
       documentsApi.uploadDocument(file, documentType),
@@ -24,7 +24,7 @@ export const useUploadDocument = () => {
 
 export const useDeleteDocument = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: documentsApi.deleteDocument,
     onSuccess: () => {

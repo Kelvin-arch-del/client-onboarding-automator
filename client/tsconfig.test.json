@@ -1,0 +1,14 @@
+// client/tsconfig.test.json
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
+  },
+  "include": [
+    "src/**/*.test.tsx", 
+    "src/**/*.test.ts",
+    "src/test/setup.ts",
+    "vitest.config.ts"
+  ]
+}

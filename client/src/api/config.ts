@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 
-const API_BASE_URL = '/api';
+export const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
-export const apiClient = axios.create({
+const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
   headers: {
@@ -10,11 +10,10 @@ export const apiClient = axios.create({
   },
 });
 
-// Request interceptor to add JWT token
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
+    const token = localStorage.getItem('token');
+    if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -22,33 +21,15 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor for error handling and token refresh
 apiClient.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      
-      try {
-        const refreshToken = localStorage.getItem('auth_token');
-        const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {}, {
-          headers: { Authorization: `Bearer ${refreshToken}` }
-        });
-        
-        const { token: newToken } = response.data;
-        localStorage.setItem('auth_token', newToken);
-        originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        
-        return apiClient(originalRequest);
-      } catch (refreshError) {
-        localStorage.removeItem('auth_token');
-        window.location.href = '/login';
-        return Promise.reject(refreshError);
-      }
+  (response: AxiosResponse) => response,
+  async (error: AxiosError) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
     }
-    
     return Promise.reject(error);
   }
 );
+
+export default apiClient;

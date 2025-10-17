@@ -17,10 +17,7 @@ const Header: React.FC = () => {
       <div className="text-lg font-semibold">Dashboard</div>
       <div className="flex items-center space-x-4">
         <span className="text-gray-700">{user?.email}</span>
-        <button
-          onClick={logout}
-          className="text-sm text-red-600 hover:underline"
-        >
+        <button onClick={logout} className="text-sm text-red-600 hover:underline">
           Logout
         </button>
       </div>

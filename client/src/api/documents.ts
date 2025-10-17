@@ -34,9 +34,7 @@ export const documentsApi = {
 
   async getDocuments(): Promise<DocumentUploadResponse[]> {
     try {
-      const response = await apiClient.get<ApiResponse<DocumentUploadResponse[]>>(
-        '/documents'
-      );
+      const response = await apiClient.get<ApiResponse<DocumentUploadResponse[]>>('/documents');
       return response.data.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || 'Failed to fetch documents');

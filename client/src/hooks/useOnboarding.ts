@@ -10,7 +10,7 @@ export const useOnboardingProgress = () => {
 
 export const useUpdateOnboardingStep = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: ({ stepId, data }: { stepId: string; data: any }) =>
       onboardingApi.updateStep(stepId, data),
@@ -22,7 +22,7 @@ export const useUpdateOnboardingStep = () => {
 
 export const useSubmitForReview = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: onboardingApi.submitForReview,
     onSuccess: () => {
